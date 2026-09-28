@@ -1,97 +1,66 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Search, Home, ArrowLeft, HelpCircle } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
 export default function NotFound() {
-  const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
-    } else {
-      router.push('/search');
-    }
-  };
-
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-white font-sans">
-      <Header />
-
-      <main className="flex-grow flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-white text-slate-900 font-sans selection:bg-[#ccff00] selection:text-slate-950">
+      
+      {/* Royal Blue Grid Error Banner */}
+      <section className="relative bg-[#0038ff] text-white py-20 overflow-hidden flex-grow flex flex-col justify-between">
         
-        {/* Glow Effects */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-brand-blue/20 blur-3xl pointer-events-none"></div>
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-[#d2ff00]/10 blur-2xl pointer-events-none"></div>
+        {/* Subtle Grid Background */}
+        <div
+          className="absolute inset-0 opacity-15 pointer-events-none"
+          style={{
+            backgroundImage:
+              'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        ></div>
 
-        <div className="max-w-2xl w-full text-center space-y-8 relative z-10">
+        {/* Global Header */}
+        <Header />
+
+        {/* Central Error Content */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center space-y-6 my-auto py-12">
           
-          {/* Big 404 Visual */}
-          <div className="relative inline-block">
-            <span className="text-8xl sm:text-9xl font-black tracking-widest bg-gradient-to-r from-[#d2ff00] via-yellow-200 to-brand-blue bg-clip-text text-transparent drop-shadow-2xl">
-              404
-            </span>
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-slate-900 border border-slate-700 text-xs font-extrabold text-[#d2ff00] shadow-lg whitespace-nowrap">
-              The page you are looking for doesn't exist
-            </div>
-          </div>
+          {/* Giant Gradient 404 Text */}
+          <h1 className="text-8xl sm:text-[140px] font-black leading-none bg-gradient-to-b from-[#ccff00] to-[#88dd00] bg-clip-text text-transparent drop-shadow-2xl">
+            404
+          </h1>
 
-          <div className="space-y-3 pt-2">
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Oops! Page Not Found
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
-              We couldn't find the page or course URL you were looking for. Try searching for a course or return to the main landing page.
-            </p>
-          </div>
+          {/* Main Heading */}
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white underline decoration-blue-400/40 underline-offset-8">
+            The page you are looking for doesn't exist
+          </h2>
 
-          {/* Quick Search on 404 */}
-          <form onSubmit={handleSearch} className="max-w-md mx-auto relative">
-            <input
-              type="text"
-              placeholder="Search courses on ByteSpace..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-24 py-3 rounded-2xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-blue"
-            />
-            <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-            <button
-              type="submit"
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 px-4 py-1.5 rounded-xl bg-brand-blue text-white font-bold text-xs hover:bg-blue-600"
-            >
-              Search
-            </button>
-          </form>
+          {/* Subtext */}
+          <p className="text-xs sm:text-sm text-blue-100 font-medium max-w-md mx-auto">
+            Try to use a correct url or go back to homepage to start again
+          </p>
 
-          {/* Navigation Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+          {/* Back to Home Button */}
+          <div className="pt-4">
             <Link
               href="/"
-              className="px-7 py-3 rounded-full bg-[#d2ff00] text-slate-950 font-extrabold text-xs shadow-xl hover:bg-yellow-300 transition-all flex items-center gap-2"
+              className="inline-block px-8 py-3.5 rounded-full bg-[#ccff00] text-slate-950 font-black text-xs hover:bg-[#b8e600] transition-colors shadow-xl"
             >
-              <Home className="w-4 h-4" />
-              <span>Back to Home</span>
-            </Link>
-
-            <Link
-              href="/search"
-              className="px-7 py-3 rounded-full bg-slate-900 border border-slate-700 text-white font-bold text-xs hover:bg-slate-800 transition-all flex items-center gap-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Explore All Courses</span>
+              Back to Home
             </Link>
           </div>
 
         </div>
-      </main>
 
+        <div></div>
+      </section>
+
+      {/* Footer */}
       <Footer />
+
     </div>
   );
 }
