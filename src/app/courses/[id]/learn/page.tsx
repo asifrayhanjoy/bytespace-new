@@ -1,393 +1,329 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import {
-  Play,
-  CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
-  Download,
-  MessageSquare,
-  FileText,
-  Menu,
-  X,
+  Star,
+  Users,
+  BarChart2,
   Share2,
-  Maximize2,
-  Volume2,
-  ThumbsUp,
-  Sparkles,
+  Play,
+  Video,
+  Folder,
+  Award,
+  MessageSquare,
 } from 'lucide-react';
-import { MOCK_COURSES, Lesson } from '@/data/mockData';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
+
+const MODULE_LESSONS = [
+  {
+    title: 'Module 1: Introduction to Digital Assets',
+    description:
+      "Lay the groundwork with lessons like 'Understanding Digital Elements' and 'Navigating Design Software Tools.' Dive into the essentials of digital asset creation.",
+  },
+  {
+    title: 'Module 2: Design Principles for Impact',
+    description:
+      "Master the principles that drive impactful designs with lessons such as 'Color Theory in Digital Design' and 'Typography Essentials.' Elevate your visual communication skills.",
+  },
+  {
+    title: 'Module 4: User-Centric Design Strategies',
+    description:
+      "Understand 'Design Thinking in Digital Creation' and delve into 'User Experience (UX) Essentials.' Craft digital assets with a focus on user-centric design.",
+  },
+  {
+    title: 'Module 5: Interactive Media and Engagement',
+    description:
+      "Engage your audience with lessons like 'Creating Interactive Presentations' and 'Integrating Multimedia Elements.' Master the art of creating immersive digital experiences.",
+  },
+  {
+    title: 'Module 6: Project Showcase and Critique',
+    description:
+      "Perfect your presentation skills with 'Effective Presentation Techniques' and embrace collaboration with 'Peer Critique and Collaboration.' Showcase your work with confidence.",
+  },
+  {
+    title: 'Module 7: Optimizing Digital Assets for Various Platforms',
+    description:
+      "Adapt your digital creations for 'Mobile Platforms' and optimize for 'Social Media.' Ensure widespread accessibility and engagement across diverse digital landscapes.",
+  },
+];
 
 export default function CourseLessonsPage() {
   const params = useParams();
-  const router = useRouter();
-  const courseId = (params.id as string) || 'build-digital-asset';
-
-  const course = MOCK_COURSES.find((c) => c.id === courseId) || MOCK_COURSES[0];
-
-  // All lessons flat array for easy prev/next navigation
-  const allLessons = course.modules.flatMap((m) => m.lessons);
-
-  const [activeLesson, setActiveLesson] = useState<Lesson>(allLessons[0]);
-  const [completedLessonIds, setCompletedLessonIds] = useState<string[]>(['les-1-1']);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'resources' | 'discussion'>('overview');
-
-  // Comment state
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      author: 'Alex Johnson',
-      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100',
-      time: '3 hours ago',
-      text: 'Super clear explanation on Figma auto layout tokens! How do you handle dark mode variable mapping when exporting to React?',
-      likes: 5,
-    },
-  ]);
-  const [newComment, setNewComment] = useState('');
-
-  const activeLessonIndex = allLessons.findIndex((l) => l.id === activeLesson.id);
-  const progressPercent = Math.round((completedLessonIds.length / allLessons.length) * 100);
-
-  const toggleLessonComplete = (lessonId: string) => {
-    if (completedLessonIds.includes(lessonId)) {
-      setCompletedLessonIds(completedLessonIds.filter((id) => id !== lessonId));
-    } else {
-      setCompletedLessonIds([...completedLessonIds, lessonId]);
-    }
-  };
-
-  const handleNextLesson = () => {
-    if (activeLessonIndex < allLessons.length - 1) {
-      setActiveLesson(allLessons[activeLessonIndex + 1]);
-    }
-  };
-
-  const handlePrevLesson = () => {
-    if (activeLessonIndex > 0) {
-      setActiveLesson(allLessons[activeLessonIndex - 1]);
-    }
-  };
-
-  const handleAddComment = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newComment.trim()) return;
-    setComments([
-      ...comments,
-      {
-        id: Date.now(),
-        author: 'Shafin Ahmed',
-        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100',
-        time: 'Just now',
-        text: newComment,
-        likes: 0,
-      },
-    ]);
-    setNewComment('');
-  };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-white font-sans">
+    <div className="min-h-screen flex flex-col bg-white text-slate-900 font-sans selection:bg-[#ccff00] selection:text-slate-950">
       
-      {/* Learning Header Bar */}
-      <header className="h-16 bg-slate-900 border-b border-slate-800 px-4 sm:px-6 flex items-center justify-between z-30">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
-          >
-            {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+      {/* Top Banner with Header & Course Info */}
+      <section className="relative bg-[#0038ff] text-white pb-16 overflow-hidden">
+        {/* Grid Background Overlay */}
+        <div
+          className="absolute inset-0 opacity-15 pointer-events-none"
+          style={{
+            backgroundImage:
+              'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        ></div>
 
-          <Link href={`/courses/${course.id}`} className="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-white">
-            <ChevronLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Back to Course</span>
-          </Link>
+        {/* Global Navigation Header */}
+        <Header />
 
-          <div className="h-5 w-px bg-slate-800 hidden sm:block"></div>
+        {/* Course Header Banner Info */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            
+            <div className="space-y-3 max-w-3xl">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                Build Digital Asset: A Comprehensive Guide
+              </h1>
+              <p className="text-xs sm:text-sm text-blue-100 font-semibold">
+                Unlock the Power of Digital Creation with Expert Guidance
+              </p>
+              <p className="text-xs text-blue-200">
+                by <span className="text-[#ccff00] font-bold">purepearl studio</span>
+              </p>
 
-          <h1 className="text-xs sm:text-sm font-extrabold text-white truncate max-w-xs sm:max-w-md">
-            {course.title}
-          </h1>
-        </div>
-
-        {/* Progress & Nav Actions */}
-        <div className="flex items-center gap-4">
-          
-          {/* Progress Bar */}
-          <div className="hidden md:flex flex-col text-right space-y-1">
-            <div className="flex items-center gap-2 text-xs font-bold">
-              <span className="text-[#d2ff00]">{progressPercent}%</span>
-              <span className="text-slate-400">Completed</span>
-            </div>
-            <div className="w-32 h-1.5 rounded-full bg-slate-800 overflow-hidden">
-              <div
-                className="h-full bg-[#d2ff00] transition-all duration-300"
-                style={{ width: `${progressPercent}%` }}
-              ></div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handlePrevLesson}
-              disabled={activeLessonIndex === 0}
-              className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 disabled:opacity-30"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={handleNextLesson}
-              disabled={activeLessonIndex === allLessons.length - 1}
-              className="px-3.5 py-1.5 rounded-xl bg-brand-blue hover:bg-blue-600 text-white font-bold text-xs flex items-center gap-1.5 disabled:opacity-30"
-            >
-              <span>Next Lesson</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-
-        </div>
-      </header>
-
-      {/* Main Learning Workspace */}
-      <div className="flex-grow flex overflow-hidden relative">
-        
-        {/* Sidebar Modules List */}
-        {sidebarOpen && (
-          <aside className="w-80 sm:w-96 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0 z-20 overflow-y-auto">
-            <div className="p-4 border-b border-slate-800 flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Course Content</span>
-              <span className="text-xs text-slate-500 font-semibold">{allLessons.length} Lessons</span>
-            </div>
-
-            <div className="divide-y divide-slate-800">
-              {course.modules.map((mod, modIdx) => (
-                <div key={mod.id} className="p-4 space-y-3">
-                  <div className="space-y-0.5">
-                    <p className="text-[11px] font-extrabold uppercase text-[#d2ff00]">Module {modIdx + 1}</p>
-                    <h3 className="text-xs font-bold text-slate-200">{mod.title}</h3>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    {mod.lessons.map((les) => {
-                      const isActive = activeLesson.id === les.id;
-                      const isDone = completedLessonIds.includes(les.id);
-
-                      return (
-                        <div
-                          key={les.id}
-                          onClick={() => setActiveLesson(les)}
-                          className={`p-3 rounded-xl cursor-pointer flex items-start gap-3 transition-colors ${
-                            isActive
-                              ? 'bg-brand-blue text-white shadow-md'
-                              : 'hover:bg-slate-800 text-slate-300'
-                          }`}
-                        >
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleLessonComplete(les.id);
-                            }}
-                            className="mt-0.5"
-                          >
-                            <CheckCircle2
-                              className={`w-4 h-4 ${
-                                isDone
-                                  ? 'text-[#d2ff00] fill-slate-950'
-                                  : 'text-slate-600 hover:text-slate-400'
-                              }`}
-                            />
-                          </button>
-
-                          <div className="flex-grow space-y-0.5">
-                            <p className="text-xs font-semibold leading-snug">{les.title}</p>
-                            <p className={`text-[10px] ${isActive ? 'text-blue-200' : 'text-slate-500'}`}>
-                              {les.duration}
-                            </p>
-                          </div>
-
-                          {isActive && <Play className="w-3.5 h-3.5 fill-current shrink-0 mt-1" />}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </aside>
-        )}
-
-        {/* Main Video & Content Area */}
-        <main className="flex-grow overflow-y-auto bg-slate-950 p-4 sm:p-8 space-y-8">
-          
-          {/* Video Player Box */}
-          <div className="max-w-5xl mx-auto space-y-6">
-            <div className="relative aspect-video rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl group">
-              <video
-                src={activeLesson.videoUrl || 'https://www.w3schools.com/html/mov_bbb.mp4'}
-                controls
-                autoPlay
-                className="w-full h-full object-cover"
-                poster={course.thumbnail}
-              />
-            </div>
-
-            {/* Lesson Title & Info Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded text-[10px] font-extrabold bg-[#d2ff00] text-slate-950">
-                    Active Video
-                  </span>
-                  <span className="text-xs text-slate-400">{activeLesson.duration}</span>
-                </div>
-                <h2 className="text-xl sm:text-2xl font-black text-white">{activeLesson.title}</h2>
-              </div>
-
-              <button
-                onClick={() => toggleLessonComplete(activeLesson.id)}
-                className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all flex items-center gap-2 ${
-                  completedLessonIds.includes(activeLesson.id)
-                    ? 'bg-emerald-500 text-slate-950'
-                    : 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700'
-                }`}
-              >
-                <CheckCircle2 className="w-4 h-4" />
-                <span>
-                  {completedLessonIds.includes(activeLesson.id) ? 'Completed ✓' : 'Mark as Complete'}
+              {/* Badges Row */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <span className="px-3.5 py-1 rounded-full bg-white text-slate-900 text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                  <BarChart2 className="w-3.5 h-3.5 text-blue-600" />
+                  <span>Intermediate</span>
                 </span>
+
+                <span className="px-3.5 py-1 rounded-full bg-white text-slate-900 text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                  <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  <span>4.8 (172 reviews)</span>
+                </span>
+
+                <span className="px-3.5 py-1 rounded-full bg-white text-slate-900 text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                  <Users className="w-3.5 h-3.5 text-blue-600" />
+                  <span>199 Students</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Share Button */}
+            <div className="shrink-0">
+              <button className="px-5 py-2.5 rounded-full bg-[#ccff00] text-slate-950 font-bold text-xs flex items-center gap-2 hover:bg-[#b8e600] transition-colors shadow-md">
+                <Share2 className="w-4 h-4" />
+                <span>Share</span>
               </button>
             </div>
 
-            {/* Bottom Tabs (Overview, Resources, Discussion) */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3 border-b border-slate-800">
-                {[
-                  { id: 'overview', icon: FileText, label: 'Lesson Overview' },
-                  { id: 'resources', icon: Download, label: 'Resources & Assets' },
-                  { id: 'discussion', icon: MessageSquare, label: `Discussion (${comments.length})` },
-                ].map((tab) => {
-                  const Icon = tab.icon;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id as any)}
-                      className={`flex items-center gap-2 px-4 py-3 text-xs font-bold border-b-2 transition-all ${
-                        activeTab === tab.id
-                          ? 'border-[#d2ff00] text-[#d2ff00]'
-                          : 'border-transparent text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" />
-                      <span>{tab.label}</span>
-                    </button>
-                  );
-                })}
+          </div>
+        </div>
+
+        {/* Media Preview Player Overlay */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-7">
+              <div className="relative aspect-video rounded-3xl overflow-hidden bg-slate-900 border border-slate-200 shadow-2xl group">
+                <img
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=1000"
+                  alt="Build Digital Asset Video Player"
+                  className="w-full h-full object-cover opacity-90"
+                />
+                <button
+                  aria-label="Play Lesson Video"
+                  className="absolute inset-0 m-auto w-16 h-16 rounded-full bg-white/90 text-slate-950 flex items-center justify-center shadow-2xl hover:scale-110 transition-transform"
+                >
+                  <Play className="w-7 h-7 fill-current ml-1" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+
+      {/* Main Workspace */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-grow">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Left Column: Lesson Modules & Progress */}
+          <div className="lg:col-span-7 space-y-10">
+            
+            {/* Tab Navigation */}
+            <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
+              <Link
+                href="/courses/build-digital-asset"
+                className="px-6 py-2 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+              >
+                About
+              </Link>
+
+              <button className="px-6 py-2 rounded-full text-xs bg-[#ccff00] text-slate-950 font-extrabold shadow-xs">
+                Lesson
+              </button>
+
+              <Link
+                href="/courses/build-digital-asset/reviews"
+                className="px-6 py-2 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+              >
+                Reviews
+              </Link>
+            </div>
+
+            {/* Explore the Modules Header */}
+            <div className="space-y-2">
+              <h2 className="text-xl font-extrabold text-slate-900">Explore the Modules</h2>
+              <p className="text-xs text-slate-500 max-w-xl leading-relaxed font-normal">
+                Immerse yourself in the course content as we break down each module into comprehensive lessons, providing practical insights and hands-on experiences.
+              </p>
+            </div>
+
+            {/* Lesson List */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-extrabold text-slate-900">Lesson List</h3>
+
+              <div className="space-y-4">
+                {MODULE_LESSONS.map((mod, idx) => (
+                  <div key={idx} className="flex items-start gap-4 p-4 rounded-3xl bg-white border border-slate-200/90 shadow-xs">
+                    <div className="w-12 h-12 rounded-2xl bg-[#ccff00] flex items-center justify-center shrink-0 shadow-xs">
+                      <Video className="w-6 h-6 text-slate-950" />
+                    </div>
+                    <div className="space-y-1">
+                      <h4 className="font-extrabold text-xs text-slate-900">{mod.title}</h4>
+                      <p className="text-xs text-slate-600 leading-relaxed font-normal">{mod.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Lesson Content Section */}
+            <div className="space-y-3 pt-4 border-t border-slate-100">
+              <h3 className="text-lg font-extrabold text-slate-900">Lesson Content</h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                Engage with each lesson through captivating video content, detailed textual explanations, and interactive elements. Download resources, complete assignments, and test your understanding with quizzes.
+              </p>
+            </div>
+
+            {/* Lesson Progress Tracking */}
+            <div className="space-y-3 pt-4 border-t border-slate-100">
+              <h3 className="text-lg font-extrabold text-slate-900">Lesson Progress Tracking</h3>
+              <p className="text-xs text-slate-500 leading-relaxed font-normal">
+                Witness your growth as you complete lessons, with an intuitive progress tracking feature guiding you through your learning journey.
+              </p>
+
+              {/* Progress Card */}
+              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm max-w-lg space-y-2">
+                <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">
+                  Learning Progress
+                </span>
+                <span className="text-3xl font-black text-slate-900 block">55%</span>
+                <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden mt-1">
+                  <div className="w-[55%] h-full bg-[#ccff00]"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          {/* Right Column Sticky Sidebar Card */}
+          <div className="lg:col-span-5">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200 space-y-6">
+              
+              {/* Header Info */}
+              <div className="space-y-3 border-b border-slate-100 pb-4">
+                <h3 className="text-lg font-extrabold text-slate-900">112 Lessons (24 hours)</h3>
+                
+                <div className="space-y-2 text-xs">
+                  <div className="flex justify-between items-center text-slate-800 font-medium">
+                    <span>01 Introduction to Digital Assets</span>
+                    <span className="text-blue-600 font-semibold">12 mins</span>
+                  </div>
+                  <div className="flex justify-between items-center text-slate-800 font-medium">
+                    <span>02 Design Principles for Impacts</span>
+                    <span className="text-blue-600 font-semibold">21 mins</span>
+                  </div>
+                  <div className="flex justify-between items-center text-slate-800 font-medium">
+                    <span>03 Advanced Techniques in Digital Creation</span>
+                    <span className="text-blue-600 font-semibold">16 mins</span>
+                  </div>
+                  <p className="text-[11px] text-slate-400 font-medium pt-1">99 more videos</p>
+                </div>
               </div>
 
-              {/* OVERVIEW TAB */}
-              {activeTab === 'overview' && (
-                <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  <h3 className="text-base font-bold text-white">Lesson Summary</h3>
-                  <p>{activeLesson.description}</p>
-                  <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-                    <p className="font-bold text-[#d2ff00] text-xs">Instructor Note:</p>
-                    <p className="text-xs text-slate-400">
-                      Be sure to open Figma and practice constructing auto-layout variants as described in step 2 of this module before proceeding to the next exercise.
-                    </p>
+              {/* Call to action text & Price */}
+              <div className="space-y-3">
+                <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                  Ready to Dive In? Enroll Now and Start Building Your Digital Future!
+                </p>
+
+                <div>
+                  <span className="text-3xl font-black text-blue-600">$25</span>
+                  <span className="text-xs text-slate-400 font-medium">/lifetime</span>
+                </div>
+
+                <button
+                  type="button"
+                  className="w-full py-3.5 rounded-full bg-[#ccff00] text-slate-950 font-extrabold text-xs shadow-md hover:bg-[#b8e600] transition-colors"
+                >
+                  Enroll Now
+                </button>
+              </div>
+
+              {/* Course Includes Checklist */}
+              <div className="space-y-3 border-t border-slate-100 pt-4">
+                <h4 className="text-xs font-bold text-slate-900">This course include</h4>
+                <div className="space-y-2 text-xs text-slate-600">
+                  <div className="flex items-center gap-2.5">
+                    <Folder className="w-4 h-4 text-blue-600" />
+                    <span>Learning Resources</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <Video className="w-4 h-4 text-blue-600" />
+                    <span>Quality Lesson Videos</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <Award className="w-4 h-4 text-blue-600" />
+                    <span>Certificate of Completion</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <MessageSquare className="w-4 h-4 text-blue-600" />
+                    <span>Private Consultation</span>
                   </div>
                 </div>
-              )}
+              </div>
 
-              {/* RESOURCES TAB */}
-              {activeTab === 'resources' && (
-                <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-3">
-                  <h3 className="text-base font-bold text-white mb-2">Downloadable Lesson Files</h3>
-                  
-                  <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-3">
-                      <FileText className="w-5 h-5 text-brand-blue" />
-                      <div>
-                        <p className="font-bold text-white">ByteSpace_Design_System_Tokens.fig</p>
-                        <p className="text-[10px] text-slate-500">14.2 MB • Figma File</p>
-                      </div>
-                    </div>
-                    <a
-                      href="#"
-                      className="px-3 py-1.5 rounded-lg bg-brand-blue hover:bg-blue-600 text-white font-bold text-xs flex items-center gap-1.5"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>Download</span>
-                    </a>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-3">
-                      <FileText className="w-5 h-5 text-emerald-500" />
-                      <div>
-                        <p className="font-bold text-white">Starter_Source_Code.zip</p>
-                        <p className="text-[10px] text-slate-500">4.8 MB • Zip Archive</p>
-                      </div>
-                    </div>
-                    <a
-                      href="#"
-                      className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-1.5"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>Download</span>
-                    </a>
+              {/* Creator Profile Box */}
+              <div className="border-t border-slate-100 pt-4 space-y-3">
+                <div className="flex items-center gap-3">
+                  <img
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120"
+                    alt="PurePearl Studio"
+                    className="w-10 h-10 rounded-full object-cover border border-slate-200"
+                  />
+                  <div>
+                    <h5 className="text-xs font-extrabold text-slate-900">PurePearl Studio</h5>
+                    <p className="text-[10px] text-slate-400 font-medium">Professional Creator</p>
                   </div>
                 </div>
-              )}
-
-              {/* DISCUSSION TAB */}
-              {activeTab === 'discussion' && (
-                <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-6">
-                  <form onSubmit={handleAddComment} className="space-y-3">
-                    <textarea
-                      rows={3}
-                      placeholder="Ask a question or leave a note on this video lesson..."
-                      value={newComment}
-                      onChange={(e) => setNewComment(e.target.value)}
-                      className="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-blue"
-                    ></textarea>
-                    <button
-                      type="submit"
-                      className="px-5 py-2.5 rounded-xl bg-brand-blue hover:bg-blue-600 text-white font-bold text-xs shadow-md"
-                    >
-                      Post Comment
-                    </button>
-                  </form>
-
-                  <div className="space-y-4">
-                    {comments.map((c) => (
-                      <div key={c.id} className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-xs">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <img src={c.avatar} alt={c.author} className="w-7 h-7 rounded-full object-cover" />
-                            <span className="font-bold text-white">{c.author}</span>
-                            <span className="text-[10px] text-slate-500">{c.time}</span>
-                          </div>
-                          <button className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-[#d2ff00]">
-                            <ThumbsUp className="w-3.5 h-3.5" />
-                            <span>{c.likes}</span>
-                          </button>
-                        </div>
-                        <p className="text-slate-300 leading-relaxed">{c.text}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+                <p className="text-xs text-slate-500 leading-relaxed font-normal">
+                  Ready to Dive In? Enroll Now and Start Building Your Digital Future!
+                </p>
+                <Link
+                  href="/creator/purepearl-studio"
+                  className="inline-block px-4 py-1.5 rounded-full border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+                >
+                  See Full Profile
+                </Link>
+              </div>
 
             </div>
           </div>
 
-        </main>
-      </div>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <Footer />
 
     </div>
   );
