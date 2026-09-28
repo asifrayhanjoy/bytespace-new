@@ -2,14 +2,18 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { ShoppingBag, Menu, X } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 export const Header: React.FC = () => {
-  const router = useRouter();
+  const pathname = usePathname();
   const { cart } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const isHome = pathname === '/';
+  const isSearch = pathname === '/search';
+  const isCreators = pathname?.startsWith('/creator');
 
   return (
     <header className="w-full bg-[#0038ff] border-b border-blue-500/40 sticky top-0 z-50 backdrop-blur-md">
@@ -30,19 +34,31 @@ export const Header: React.FC = () => {
           <nav className="hidden md:flex items-center gap-8">
             <Link
               href="/"
-              className="text-sm font-bold text-white px-3 py-1.5 rounded-lg bg-white/10 border border-white/20"
+              className={`text-sm font-semibold transition-all ${
+                isHome
+                  ? 'text-white px-3 py-1 rounded-lg bg-white/10 border border-white/20 font-bold'
+                  : 'text-blue-100 hover:text-white'
+              }`}
             >
               Home
             </Link>
             <Link
               href="/search"
-              className="text-sm font-semibold text-blue-100 hover:text-white transition-colors"
+              className={`text-sm transition-all ${
+                isSearch
+                  ? 'text-slate-950 px-3.5 py-1 rounded-full bg-[#ccff00] font-black shadow-xs'
+                  : 'text-blue-100 font-semibold hover:text-white'
+              }`}
             >
               Courses
             </Link>
             <Link
               href="/creator/purepearl-studio"
-              className="text-sm font-semibold text-blue-100 hover:text-white transition-colors"
+              className={`text-sm transition-all ${
+                isCreators
+                  ? 'text-slate-950 px-3 py-1 rounded-full bg-[#ccff00] font-black shadow-xs'
+                  : 'text-blue-100 font-semibold hover:text-white'
+              }`}
             >
               Creators
             </Link>
@@ -93,14 +109,14 @@ export const Header: React.FC = () => {
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-lg text-sm font-bold bg-white/10"
+            className="block px-3 py-2 rounded-lg text-sm font-bold hover:bg-blue-700"
           >
             Home
           </Link>
           <Link
             href="/search"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-lg text-sm font-semibold text-blue-100 hover:bg-blue-700"
+            className="block px-3 py-2 rounded-lg text-sm font-bold bg-[#ccff00] text-slate-950"
           >
             Courses
           </Link>

@@ -26,9 +26,9 @@ function SearchPageContent() {
 
   const [query, setQuery] = useState(initialQuery);
   const [activeCategory, setActiveCategory] = useState('featured');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(2); // Default active page 2 matching Figma screenshot!
 
-  // Duplicate courses to fill multi-row grid (12 cards matching Figma screenshot)
+  // Duplicate 6 mock courses to display a full 12-card grid (4 rows of 3 cards)
   const searchResults = [...MOCK_COURSES, ...MOCK_COURSES].filter((course) => {
     if (!query) return true;
     return (
@@ -40,14 +40,14 @@ function SearchPageContent() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-900 font-sans selection:bg-[#ccff00] selection:text-slate-950">
       
-      {/* 1. Header */}
+      {/* 1. Navigation Header */}
       <Header />
 
       <main className="flex-grow">
         
         {/* 2. Hero Search Banner */}
         <section className="relative bg-[#0038ff] text-white py-16 overflow-hidden">
-          {/* Subtle Grid Background */}
+          {/* Grid Background Overlay */}
           <div
             className="absolute inset-0 opacity-15 pointer-events-none"
             style={{
@@ -89,10 +89,10 @@ function SearchPageContent() {
         </section>
 
 
-        {/* 3. Filter & Category Section */}
+        {/* 3. Filter & Sort Section */}
         <section className="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           
-          {/* Top Filter Buttons & Sort */}
+          {/* Top Row Filter Buttons & Sorting Dropdown */}
           <div className="flex flex-wrap items-center justify-between gap-4">
             
             <div className="flex items-center gap-3">
@@ -112,7 +112,7 @@ function SearchPageContent() {
               </button>
             </div>
 
-            {/* Sort dropdown */}
+            {/* Sort Dropdown */}
             <div>
               <button className="px-4 py-1.5 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 flex items-center gap-1.5 shadow-xs">
                 <span>Most relevant</span>
@@ -145,7 +145,7 @@ function SearchPageContent() {
         </section>
 
 
-        {/* 4. Multi-Row Course Cards Grid */}
+        {/* 4. Course Cards Grid (12 items in 3-column layout) */}
         <section className="pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {searchResults.map((course, idx) => (
@@ -153,12 +153,11 @@ function SearchPageContent() {
             ))}
           </div>
 
-          {/* 5. Pagination */}
+          {/* 5. Pagination Section */}
           <div className="flex items-center justify-center gap-3 pt-12">
             <button
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-              disabled={currentPage === 1}
-              className="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-100 transition-colors disabled:opacity-40"
+              className="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-100 transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -167,10 +166,10 @@ function SearchPageContent() {
               <button
                 key={p}
                 onClick={() => setCurrentPage(p)}
-                className={`w-8 h-8 rounded-full text-xs font-bold transition-all ${
+                className={`w-8 h-8 rounded-full text-xs transition-all ${
                   currentPage === p
-                    ? 'text-slate-950 font-black'
-                    : 'text-slate-500 hover:text-slate-900'
+                    ? 'text-slate-950 font-black text-sm'
+                    : 'text-slate-400 font-medium hover:text-slate-700'
                 }`}
               >
                 {p}
@@ -179,8 +178,7 @@ function SearchPageContent() {
 
             <button
               onClick={() => setCurrentPage((p) => Math.min(p + 1, 5))}
-              disabled={currentPage === 5}
-              className="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-100 transition-colors disabled:opacity-40"
+              className="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-100 transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
             </button>

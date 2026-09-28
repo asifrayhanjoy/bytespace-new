@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-white text-slate-700 pt-16 pb-12 border-t border-slate-200">
+    <footer className="bg-white text-slate-700 pt-16 pb-12 border-t border-slate-200 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Top Newsletter & Brand & Link Columns */}
@@ -50,7 +50,14 @@ export const Footer: React.FC = () => {
             {/* Column 1 */}
             <div className="space-y-3">
               <ul className="space-y-2.5 text-xs font-semibold text-slate-600">
-                <li><Link href="/search" className="hover:text-blue-600 transition-colors">Featured Courses</Link></li>
+                <li>
+                  <Link href="/search" className="hover:text-blue-600 transition-colors inline-flex items-center gap-1">
+                    <span>Featured</span>
+                    <span className="px-1.5 py-0.5 rounded bg-[#ccff00] text-slate-950 font-bold text-[10px]">
+                      Courses
+                    </span>
+                  </Link>
+                </li>
                 <li><Link href="/search" className="hover:text-blue-600 transition-colors">Featured Categories</Link></li>
                 <li><Link href="/search?category=business" className="hover:text-blue-600 transition-colors">Business</Link></li>
                 <li><Link href="/search?category=it-software" className="hover:text-blue-600 transition-colors">IT</Link></li>
