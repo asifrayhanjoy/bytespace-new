@@ -3,9 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Star, Clock, BookOpen, ArrowUpRight, CheckCircle } from 'lucide-react';
+import { Star, BarChart2 } from 'lucide-react';
 import { Course } from '@/data/mockData';
-import { useApp } from '@/context/AppContext';
 
 interface CourseCardProps {
   course: Course;
@@ -13,127 +12,105 @@ interface CourseCardProps {
 
 export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
   const router = useRouter();
-  const { isEnrolled, enrollCourse } = useApp();
-  const enrolled = isEnrolled(course.id);
 
   const handleCardClick = () => {
     router.push(`/courses/${course.id}`);
   };
 
-  const handleEnrollClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (enrolled) {
-      router.push(`/courses/${course.id}/learn`);
-    } else {
-      enrollCourse(course.id);
-      router.push(`/courses/${course.id}/learn`);
-    }
-  };
-
   return (
     <div
       onClick={handleCardClick}
-      className="group cursor-pointer bg-white rounded-2xl border border-slate-200/80 overflow-hidden card-shadow card-hover-effect flex flex-col justify-between"
+      className="group cursor-pointer bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between p-4 space-y-3.5"
     >
       <div>
-        {/* Thumbnail & Badge */}
-        <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
+        {/* Thumbnail Image with 3 Overlay Badges */}
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-slate-100 mb-3.5">
           <img
             src={course.thumbnail}
             alt={course.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute top-3 left-3 flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-[#d2ff00] text-slate-950 shadow-sm">
-              {course.badge}
+          
+          {/* Overlay Translucent Badges at bottom of thumbnail */}
+          <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1">
+            <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#E5E7EB]/90 text-slate-800 backdrop-blur-md whitespace-nowrap shadow-xs">
+              {course.lessonsCount} Lessons
+            </span>
+            <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#E5E7EB]/90 text-slate-800 backdrop-blur-md whitespace-nowrap shadow-xs">
+              {course.duration}
+            </span>
+            <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#E5E7EB]/90 text-slate-800 backdrop-blur-md whitespace-nowrap shadow-xs">
+              {course.commentsCount} Comments
             </span>
           </div>
-          <span className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-900/80 text-white backdrop-blur-md">
-            {course.category}
-          </span>
         </div>
 
-        {/* Content */}
-        <div className="p-5 space-y-3">
-          
-          {/* Instructor line */}
+        {/* Title & Rating Header */}
+        <div className="space-y-1 px-1">
           <div className="flex items-center justify-between gap-2">
+            <h3 className="font-extrabold text-lg text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1 tracking-tight">
+              {course.title}
+            </h3>
+            <div className="flex items-center gap-1 text-slate-400 font-bold text-sm shrink-0">
+              <span className="text-slate-700">{course.rating.toFixed(1)}</span>
+              <Star className="w-4 h-4 fill-slate-300 text-slate-300" />
+            </div>
+          </div>
+
+          {/* Instructor line */}
+          <p className="text-xs text-slate-400 font-normal">
+            by{' '}
             <Link
               href={`/creator/${course.creator.id}`}
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-2 group/creator"
+              className="text-blue-600 hover:underline font-semibold"
             >
-              <img
-                src={course.creator.avatar}
-                alt={course.creator.name}
-                className="w-6 h-6 rounded-full object-cover border border-slate-200"
-              />
-              <span className="text-xs font-semibold text-slate-600 group-hover/creator:text-brand-blue transition-colors">
-                {course.creator.name}
-              </span>
+              {course.creator.name}
             </Link>
-            
-            {/* Level badge */}
-            <span className="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
-              {course.level}
-            </span>
-          </div>
-
-          {/* Title */}
-          <h3 className="font-bold text-base text-slate-900 group-hover:text-brand-blue transition-colors line-clamp-2 leading-snug">
-            {course.title}
-          </h3>
-
-          {/* Stats: Rating, Lessons, Duration */}
-          <div className="flex items-center gap-4 text-xs text-slate-500 font-medium pt-1">
-            <div className="flex items-center gap-1 text-amber-500 font-bold">
-              <Star className="w-3.5 h-3.5 fill-amber-400" />
-              <span>{course.rating.toFixed(1)}</span>
-              <span className="text-slate-400 font-normal">({course.reviewCount})</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <BookOpen className="w-3.5 h-3.5 text-slate-400" />
-              <span>{course.lessonsCount} Lessons</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5 text-slate-400" />
-              <span>{course.duration}</span>
-            </div>
-          </div>
+          </p>
         </div>
       </div>
 
-      {/* Footer / Price & Actions */}
-      <div className="px-5 pb-5 pt-3 border-t border-slate-100 flex items-center justify-between">
-        <div className="flex items-baseline gap-2">
-          <span className="text-xl font-extrabold text-slate-900">${course.price}</span>
-          {course.originalPrice > course.price && (
-            <span className="text-xs font-medium text-slate-400 line-through">
-              ${course.originalPrice}
-            </span>
-          )}
+      {/* Middle Row: Level Badge + Avatar Stack */}
+      <div className="px-1 flex items-center justify-between pt-1">
+        {/* Level Indicator */}
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 text-slate-600 text-xs font-medium">
+          <BarChart2 className="w-3.5 h-3.5 text-slate-500" />
+          <span>{course.level}</span>
         </div>
 
-        <button
-          onClick={handleEnrollClick}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-            enrolled
-              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
-              : 'bg-brand-blue text-white hover:bg-blue-700 shadow-sm'
-          }`}
-        >
-          {enrolled ? (
-            <>
-              <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Continue</span>
-            </>
-          ) : (
-            <>
-              <span>Enroll Now</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </>
-          )}
-        </button>
+        {/* Avatar Stack with +26 badge */}
+        <div className="flex items-center -space-x-2">
+          <img
+            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=80"
+            alt="Student Avatar"
+            className="w-6 h-6 rounded-full border-2 border-white object-cover"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=80"
+            alt="Student Avatar"
+            className="w-6 h-6 rounded-full border-2 border-white object-cover"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=80"
+            alt="Student Avatar"
+            className="w-6 h-6 rounded-full border-2 border-white object-cover"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=80"
+            alt="Student Avatar"
+            className="w-6 h-6 rounded-full border-2 border-white object-cover"
+          />
+          <span className="w-6 h-6 rounded-full bg-[#CCFF00] text-slate-950 font-black text-[10px] flex items-center justify-center border-2 border-white shadow-xs">
+            26+
+          </span>
+        </div>
+      </div>
+
+      {/* Bottom Price Row */}
+      <div className="px-1 pt-1">
+        <span className="text-xl font-black text-blue-600">${course.price}</span>
+        <span className="text-xs text-slate-400 font-normal">/lifetime</span>
       </div>
     </div>
   );
