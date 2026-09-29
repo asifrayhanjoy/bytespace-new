@@ -16,48 +16,41 @@ export const Header: React.FC = () => {
   const isCreators = pathname?.startsWith('/creator');
 
   return (
-    <header className="w-full bg-[#0038ff] border-b border-blue-500/40 sticky top-0 z-50 backdrop-blur-md">
+    <header className="w-full bg-[#0022FF] text-white relative z-50 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-xl bg-[#ccff00] flex items-center justify-center text-slate-950 font-black text-xl shadow-md group-hover:scale-105 transition-transform">
+          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group shrink-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#CCFF00] flex items-center justify-center text-slate-950 font-black text-lg sm:text-xl shadow-md group-hover:scale-105 transition-transform">
               <span>b</span>
             </div>
-            <span className="font-extrabold text-2xl tracking-tight text-white flex items-center">
+            <span className="font-extrabold text-lg sm:text-2xl tracking-tight text-white flex items-center">
               ByteSpace
             </span>
           </Link>
 
-          {/* Navigation Links - Centered */}
+          {/* Navigation Links - Centered (Desktop) */}
           <nav className="hidden md:flex items-center gap-8">
             <Link
               href="/"
-              className={`text-sm font-semibold transition-all ${
-                isHome
-                  ? 'text-white px-3 py-1 rounded-lg bg-white/10 border border-white/20 font-bold'
-                  : 'text-blue-100 hover:text-white'
+              className={`text-sm sm:text-base font-medium transition-colors ${
+                isHome ? 'text-white font-semibold' : 'text-white/80 hover:text-white'
               }`}
             >
               Home
             </Link>
             <Link
               href="/search"
-              className={`text-sm transition-all ${
-                isSearch
-                  ? 'text-slate-950 px-3.5 py-1 rounded-full bg-[#ccff00] font-black shadow-xs'
-                  : 'text-blue-100 font-semibold hover:text-white'
+              className={`text-sm sm:text-base font-medium transition-colors ${
+                isSearch ? 'text-white font-semibold' : 'text-white/80 hover:text-white'
               }`}
             >
               Courses
             </Link>
             <Link
               href="/creator/purepearl-studio"
-              className={`text-sm transition-all ${
-                isCreators
-                  ? 'text-slate-950 px-3 py-1 rounded-full bg-[#ccff00] font-black shadow-xs'
-                  : 'text-blue-100 font-semibold hover:text-white'
+              className={`text-sm sm:text-base font-medium transition-colors ${
+                isCreators ? 'text-white font-semibold' : 'text-white/80 hover:text-white'
               }`}
             >
               Creators
@@ -65,27 +58,27 @@ export const Header: React.FC = () => {
           </nav>
 
           {/* Right Action Buttons */}
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2.5 sm:gap-4 md:gap-6 shrink-0">
             <Link
               href="/login"
-              className="text-sm font-semibold text-white hover:text-blue-200 transition-colors"
+              className="text-xs sm:text-sm md:text-base font-medium text-white hover:text-white/80 transition-colors whitespace-nowrap"
             >
               Sign In
             </Link>
             <Link
               href="/register"
-              className="px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/30 backdrop-blur-md transition-all"
+              className="text-xs sm:text-sm md:text-base font-medium text-white hover:text-white/80 transition-colors whitespace-nowrap"
             >
               Join Us
             </Link>
             <Link
               href="/search"
               aria-label="Shopping Cart"
-              className="relative p-2 text-white hover:text-[#ccff00] transition-colors"
+              className="relative p-1 text-white hover:text-[#CCFF00] transition-colors shrink-0"
             >
-              <ShoppingBag className="w-5 h-5" />
+              <ShoppingBag className="w-5 h-5 stroke-[1.8]" />
               {cart.length > 0 && (
-                <span className="absolute top-0 right-0 w-4 h-4 rounded-full bg-[#ccff00] text-slate-950 text-[10px] font-bold flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#CCFF00] text-slate-950 text-[10px] font-bold flex items-center justify-center">
                   {cart.length}
                 </span>
               )}
@@ -94,36 +87,36 @@ export const Header: React.FC = () => {
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-white hover:bg-blue-700"
+              className="md:hidden p-1.5 rounded-lg text-white hover:bg-white/10 shrink-0"
+              aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
           </div>
-
         </div>
       </div>
 
       {/* Mobile Nav Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#0038ff] border-t border-blue-500/40 px-4 pt-3 pb-6 space-y-3 text-white">
+        <div className="md:hidden bg-[#0022FF] border-t border-white/10 px-4 pt-3 pb-6 space-y-3 text-white animate-in slide-in-from-top-2">
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-lg text-sm font-bold hover:bg-blue-700"
+            className="block px-3 py-2 rounded-lg text-sm font-bold hover:bg-white/10"
           >
             Home
           </Link>
           <Link
             href="/search"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-lg text-sm font-bold bg-[#ccff00] text-slate-950"
+            className="block px-3 py-2 rounded-lg text-sm font-bold hover:bg-white/10"
           >
             Courses
           </Link>
           <Link
             href="/creator/purepearl-studio"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-lg text-sm font-semibold text-blue-100 hover:bg-blue-700"
+            className="block px-3 py-2 rounded-lg text-sm font-semibold hover:bg-white/10"
           >
             Creators
           </Link>

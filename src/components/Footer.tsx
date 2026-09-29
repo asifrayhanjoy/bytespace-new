@@ -24,22 +24,22 @@ export const Footer: React.FC = () => {
               Stay Up to date with our latest features and releases by joining our newsletter.
             </p>
 
-            {/* Newsletter Input */}
-            <form onSubmit={(e) => e.preventDefault()} className="max-w-md space-y-2">
-              <div className="relative flex items-center">
+            {/* Newsletter Input Form */}
+            <form onSubmit={(e) => e.preventDefault()} className="max-w-md space-y-2.5">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="w-full pl-4 pr-28 py-3 rounded-full border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 bg-white"
+                  className="w-full sm:flex-grow px-5 py-3 rounded-full border border-slate-300 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-400 bg-white shadow-xs"
                 />
                 <button
                   type="submit"
-                  className="absolute right-1.5 top-1/2 -translate-y-1/2 px-6 py-2 rounded-full bg-[#ccff00] text-slate-950 font-bold text-xs hover:bg-[#b8e600] transition-colors shadow-xs"
+                  className="w-full sm:w-auto px-7 sm:px-8 py-3 rounded-full bg-[#CCFF00] hover:bg-[#b8e600] text-slate-950 font-extrabold text-xs sm:text-sm transition-all shadow-xs shrink-0 text-center"
                 >
                   Search
                 </button>
               </div>
-              <p className="text-[10px] text-slate-400 leading-tight">
+              <p className="text-[10px] text-slate-400 leading-tight pt-1">
                 By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.
               </p>
             </form>
@@ -49,15 +49,8 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
             {/* Column 1 */}
             <div className="space-y-3">
-              <ul className="space-y-2.5 text-xs font-semibold text-slate-600">
-                <li>
-                  <Link href="/search" className="hover:text-blue-600 transition-colors inline-flex items-center gap-1">
-                    <span>Featured</span>
-                    <span className="px-1.5 py-0.5 rounded bg-[#ccff00] text-slate-950 font-bold text-[10px]">
-                      Courses
-                    </span>
-                  </Link>
-                </li>
+              <ul className="space-y-2.5 text-xs sm:text-sm font-semibold text-slate-600">
+                <li><Link href="/search" className="hover:text-blue-600 transition-colors">Featured Courses</Link></li>
                 <li><Link href="/search" className="hover:text-blue-600 transition-colors">Featured Categories</Link></li>
                 <li><Link href="/search?category=business" className="hover:text-blue-600 transition-colors">Business</Link></li>
                 <li><Link href="/search?category=it-software" className="hover:text-blue-600 transition-colors">IT</Link></li>

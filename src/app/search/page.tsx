@@ -26,7 +26,7 @@ function SearchPageContent() {
 
   const [query, setQuery] = useState(initialQuery);
   const [activeCategory, setActiveCategory] = useState('featured');
-  const [currentPage, setCurrentPage] = useState(2); // Default active page 2 matching Figma screenshot!
+  const [currentPage, setCurrentPage] = useState(1); // Default active page 1 matching screenshot!
 
   // Duplicate 6 mock courses to display a full 12-card grid (4 rows of 3 cards)
   const searchResults = [...MOCK_COURSES, ...MOCK_COURSES].filter((course) => {
@@ -45,44 +45,47 @@ function SearchPageContent() {
 
       <main className="flex-grow">
         
-        {/* 2. Hero Search Banner */}
-        <section className="relative bg-[#0038ff] text-white py-16 overflow-hidden">
+        {/* 2. Hero Search Banner (Royal Blue Grid) */}
+        <section className="relative bg-[#0022FF] text-white py-16 sm:py-20 overflow-hidden flex flex-col justify-center">
           {/* Grid Background Overlay */}
           <div
-            className="absolute inset-0 opacity-15 pointer-events-none"
+            className="absolute inset-0 pointer-events-none opacity-20"
             style={{
               backgroundImage:
-                'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)',
-              backgroundSize: '40px 40px',
+                'linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px)',
+              backgroundSize: '75px 75px',
             }}
           ></div>
 
           <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center space-y-6">
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white drop-shadow-xs">
               Find Your Next Course
             </h1>
 
-            {/* Search Input Bar */}
+            {/* Search Input Bar & Lime Dropdown Button */}
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="max-w-xl mx-auto flex items-center bg-white rounded-full p-1.5 shadow-2xl border border-blue-400/30"
+              className="max-w-xl mx-auto pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4 relative z-30 px-2 sm:px-0"
             >
-              <div className="flex items-center pl-4 flex-grow">
-                <Search className="w-5 h-5 text-slate-400 mr-2 shrink-0" />
+              {/* 1. Left White Input Pill */}
+              <div className="flex items-center w-full flex-grow bg-white rounded-full px-4 sm:px-5 py-2.5 sm:py-3.5 shadow-lg border border-white/20">
+                <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 shrink-0 mr-2.5 sm:mr-3 stroke-[1.8]" />
                 <input
                   type="text"
                   placeholder="Search"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  className="w-full text-slate-900 placeholder-slate-400 text-sm bg-transparent focus:outline-none font-medium"
+                  className="w-full text-slate-900 placeholder-slate-400 text-xs sm:text-base bg-transparent border-none outline-none focus:outline-none font-medium"
                 />
               </div>
+
+              {/* 2. Right Lime-Yellow Dropdown Button Pill */}
               <button
                 type="button"
-                className="px-5 py-2.5 rounded-full bg-[#ccff00] text-slate-950 font-bold text-xs flex items-center gap-1 hover:bg-[#b8e600] transition-colors shadow-xs"
+                className="w-full sm:w-auto px-6 sm:px-7 py-2.5 sm:py-3.5 rounded-full bg-[#CCFF00] hover:bg-[#b8e600] text-slate-950 font-extrabold text-xs sm:text-base flex items-center justify-center gap-2 transition-all shadow-lg shrink-0"
               >
                 <span>Courses</span>
-                <ChevronDown className="w-3.5 h-3.5" />
+                <ChevronDown className="w-4 h-4 stroke-[2.5]" />
               </button>
             </form>
           </div>
@@ -95,45 +98,46 @@ function SearchPageContent() {
           {/* Top Row Filter Buttons & Sorting Dropdown */}
           <div className="flex flex-wrap items-center justify-between gap-4">
             
+            {/* Left 3 Filter Buttons */}
             <div className="flex items-center gap-3">
-              <button className="px-4 py-1.5 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 flex items-center gap-1.5 shadow-xs">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-slate-500" />
+              <button className="px-4.5 py-2 rounded-full border border-slate-200 text-xs font-semibold text-slate-800 bg-white hover:bg-slate-50 flex items-center gap-2 shadow-xs transition-colors">
+                <SlidersHorizontal className="w-3.5 h-3.5 text-slate-700" />
                 <span>Filter</span>
               </button>
 
-              <button className="px-4 py-1.5 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 flex items-center gap-1.5 shadow-xs">
-                <BarChart2 className="w-3.5 h-3.5 text-slate-500" />
+              <button className="px-4.5 py-2 rounded-full border border-slate-200 text-xs font-semibold text-slate-800 bg-white hover:bg-slate-50 flex items-center gap-2 shadow-xs transition-colors">
+                <BarChart2 className="w-3.5 h-3.5 text-slate-700" />
                 <span>Level</span>
               </button>
 
-              <button className="px-4 py-1.5 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 flex items-center gap-1.5 shadow-xs">
-                <Layers className="w-3.5 h-3.5 text-slate-500" />
+              <button className="px-4.5 py-2 rounded-full border border-slate-200 text-xs font-semibold text-slate-800 bg-white hover:bg-slate-50 flex items-center gap-2 shadow-xs transition-colors">
+                <Layers className="w-3.5 h-3.5 text-slate-700" />
                 <span>Category</span>
               </button>
             </div>
 
-            {/* Sort Dropdown */}
+            {/* Right Sort Dropdown */}
             <div>
-              <button className="px-4 py-1.5 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 flex items-center gap-1.5 shadow-xs">
+              <button className="px-4.5 py-2 rounded-full border border-slate-200 text-xs font-semibold text-slate-800 bg-white hover:bg-slate-50 flex items-center gap-2 shadow-xs transition-colors">
+                <SlidersHorizontal className="w-3.5 h-3.5 text-slate-700" />
                 <span>Most relevant</span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
               </button>
             </div>
 
           </div>
 
           {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center gap-2 pt-1">
+          <div className="flex flex-wrap items-center gap-2.5 pt-1">
             {SEARCH_PILLS.map((pill) => {
               const isActive = activeCategory === pill.slug;
               return (
                 <button
                   key={pill.slug}
                   onClick={() => setActiveCategory(pill.slug)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  className={`px-4.5 py-2 rounded-full text-xs font-semibold transition-all ${
                     isActive
-                      ? 'bg-[#ccff00] text-slate-950 font-extrabold shadow-xs'
-                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                      ? 'bg-[#CCFF00] text-slate-950 font-extrabold shadow-xs'
+                      : 'bg-slate-100/90 hover:bg-slate-200 text-slate-700'
                   }`}
                 >
                   {pill.name}
